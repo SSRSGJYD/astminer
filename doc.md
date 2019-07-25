@@ -26,7 +26,9 @@ astminer:
  		- CodeVectorizer: code2vec model
  		- ProjectClassifier: a classification model
  	- run_example: run the classification example from scratch
- - testData: dir for input files
+ - data: dir for input code files/folders
+ - input: dir for input files, needed when generating from exisiting vocabulary
+ - output: dir for output files, should contain 4 cvs files
 ```
 
 
@@ -35,21 +37,23 @@ astminer:
 
 The main worker is written in kotlin.
 
-`VocabularyPathStorage` class in `/paths/VocabularyPathStorage` file is the worker of saving generated information.
+`VocabularyPathStorage` class in `/paths/VocabularyPathStorage` file is the worker of saving generated information by default.
+
+`RegistratedPathStorage` class in `/paths/RegistratedPathStorage` file is used as the worker of saving generated information when generating using existing vocabulary.
+
+Files in `/examples` show the usages of extracting Path-contexts from code of several languages. 
 
 
 
-#### Preprocess Output
+#### Output
 
 + node_types.csv: (node_id, node_type)
 + paths.csv: (path_id, path_by_node_id)
-
-
 
 + tokens.csv: (token_id, token)
 
 + path_context.csv: (file_id, path)
 
-  其中path的表示方式为：startTokenId pathId endTokenId
+  representation of path：``startTokenId pathId endTokenId`
 
-  pathId是paths.csv文件中的Id，startTokenId与endTokenId是tokens.csv中的Id
+  where `pathId` corresponds to `id` in `paths.csv` , while `startTokenId` and `endTokenId ` corresponds to `id` in `tokens.csv`

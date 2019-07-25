@@ -1,44 +1,28 @@
-[![Build Status](https://travis-ci.org/vovak/astminer.svg?branch=master)](https://travis-ci.org/vovak/astminer)
-
 # astminer
-A library for mining of [path-based representations of code](https://arxiv.org/pdf/1803.09544.pdf).
 
-### Version history
+A library for mining of [path-based representations of code](https://arxiv.org/pdf/1803.09544.pdf). The code 
 
-#### 0.2
 
-* Mining of ASTs
-
-#### 0.1
-* astminer is available via Maven Central
-* Support of Java and Python
-* Mining of [path-based representations of code](https://arxiv.org/pdf/1803.09544.pdf)
 
 
 ## About
-Astminer is an offspring of an internal utility from our ongoing research project.
+Astminer is an offspring of an internal utility from a research project.
 
 Currently it supports extraction of path-based representations and raw ASTs from code in Java and Python, but it is designed to be very easily extensible.
 
 The default output format is inspired by [code2vec](https://github.com/tech-srl/code2vec).
 
+
+
 ## Usage
-
-### Import
-
-Astminer is available via Maven Central repository. You can add the dependency in your `build.gradle` file:
-
-```
-dependencies {
-    compile "io.github.vovak:astminer:0.2"
-}
-```
 
 ### Examples
 
 A few [simple usage examples](src/main/kotlin/astminer/examples) can be run with `./gradlew run`.
 
 A somewhat more verbose [example of usage in Java](src/main/kotlin/astminer/examples/AllJavaFiles.kt) is available as well.
+
+
 
 ### Parsing C/C++
 
@@ -53,6 +37,8 @@ You need to make a few extra steps to use astminer with C/C++ code:
 * `scripts/joern/update.sh` &ndash; pull changes from the [repository](https://github.com/egor-bogomolov/joern) and rebuild Joern.
 
 A [usage example](src/main/kotlin/astminer/examples/AllCppFiles.kt) is available.
+
+
 
 ## Other languages
 
