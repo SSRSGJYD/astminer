@@ -31,3 +31,4 @@ val nodeTypeToCsvString: (String) -> String = { nodeType -> nodeType }
 val orientedNodeToCsvString: (OrientedNodeType) -> String = { nt -> "${nt.typeLabel} ${nt.direction}" }
 
 val pathToCsvString: (List<Long>) -> String = { path -> path.joinToString(separator = " ") }
+

@@ -1,8 +1,6 @@
 package astminer.paths
 
-import astminer.common.OrientedNodeType
-import astminer.common.PathContext
-import astminer.common.PathStorage
+import astminer.common.*
 import astminer.common.storage.*
 import java.io.File
 
@@ -11,6 +9,10 @@ class VocabularyPathStorage : PathStorage {
     private val tokensMap: IncrementalIdStorage<String> = IncrementalIdStorage()
     private val orientedNodeTypesMap: IncrementalIdStorage<OrientedNodeType> = IncrementalIdStorage()
     private val pathsMap: IncrementalIdStorage<List<Long>> = IncrementalIdStorage()
+
+    private val tokenDict: MutableMap<String, Long> = HashMap()
+    private val nodeDict: MutableMap<OrientedNodeType, Long> = HashMap()
+    private val pathDict: MutableMap<List<Long>, Long> = HashMap()
 
     private val pathContextsPerEntity: MutableMap<String, Collection<PathContextId>> = HashMap()
 
@@ -21,6 +23,8 @@ class VocabularyPathStorage : PathStorage {
         val endTokenId = tokensMap.record(pathContext.endToken)
         val orientedNodesIds = pathContext.orientedNodeTypes.map { orientedNodeTypesMap.record(it) }
         val pathId = pathsMap.record(orientedNodesIds)
+        tokenDict[pathContext.startToken] = startTokenId
+
         return PathContextId(startTokenId, pathId, endTokenId)
     }
 
@@ -60,5 +64,10 @@ class VocabularyPathStorage : PathStorage {
         dumpPathsStorage(File("$directoryPath/paths.csv"))
 
         dumpPathContexts(File("$directoryPath/path_contexts.csv"))
+
+//        saveTokenDict(File("$directoryPath/tokens.dic"), tokenDict, tokenFromCsvString)
+//        saveNodeDict(File("$directoryPath/nodes.dic"), nodeDict, nodeTypeFromCsvString)
+//        savePathDict(File("$directoryPath/paths.dic"), pathDict, pathToCsvString)
+
     }
 }
