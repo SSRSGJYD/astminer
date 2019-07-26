@@ -87,15 +87,15 @@ Similar to Python parser, you can also parse JavaScript in 2 modes. To run in th
 ```yaml
 astminer:
 |-- src
-| 	|-- main
-| 	|	|-- antlr
-| 	|	|	| 	Java8Lexer.g4
-| 	|	|	| 	Java8Parser.g4
-| 	|	|	└--	Python3.g4
-| 	|	|   generated
-| 	|	|   java
-| 	|	└-- kotlin: generate path-contexts
-| 	└-- test
+|   |-- main
+|   |	|-- antlr
+|   |	|	| 	Java8Lexer.g4
+|   |	|	| 	Java8Parser.g4
+|   |	|	└--	Python3.g4
+|   |	|   generated
+|   |	|   java
+|   |	└-- kotlin: generate path-contexts
+|   └-- test
 |
 |-- data: dir for input code files/folders
 |-- input: dir for exisiting dictionary
