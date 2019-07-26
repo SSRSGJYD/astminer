@@ -5,22 +5,21 @@ import astminer.common.PathStorage
 import astminer.common.loadNodeDict
 import astminer.common.loadPathDict
 import astminer.common.loadTokenDict
-import astminer.parse.antlr.python.PythonParser
+import astminer.parse.antlr.javascript.JSParser
 import astminer.paths.*
 import java.io.File
 
 
-
-fun allPythonFiles(generate_vocab:Boolean) {
-    val folder = "./py_data/"
+fun allJSFiles(generate_vocab:Boolean) {
+    val folder = "./js_data/"
 
     val miner = PathMiner(PathRetrievalSettings(5, 5))
 
     if(generate_vocab) {
         var storage = VocabularyPathStorage()
-        File(folder).forFilesWithSuffix(".py") { file ->
+        File(folder).forFilesWithSuffix(".js") { file ->
             try {
-                val node = PythonParser().parse(file.inputStream()) ?: return@forFilesWithSuffix
+                val node = JSParser().parse(file.inputStream()) ?: return@forFilesWithSuffix
                 val paths = miner.retrievePaths(node)
 
                 storage.store(paths.map { toPathContext(it) }, entityId = file.path)
@@ -33,12 +32,12 @@ fun allPythonFiles(generate_vocab:Boolean) {
     }
     else{
         var storage = RegistratedPathStorage()
-        val tokenDict = loadTokenDict("py_input/tokens.csv")
-        val nodeDict = loadNodeDict("py_input/node_types.csv")
-        val pathDict = loadPathDict("py_input/paths.csv")
-        File(folder).forFilesWithSuffix(".py") { file ->
+        val tokenDict = loadTokenDict("js_input/tokens.csv")
+        val nodeDict = loadNodeDict("js_input/node_types.csv")
+        val pathDict = loadPathDict("js_input/paths.csv")
+        File(folder).forFilesWithSuffix(".js") { file ->
             try {
-                val node = PythonParser().parse(file.inputStream()) ?: return@forFilesWithSuffix
+                val node = JSParser().parse(file.inputStream()) ?: return@forFilesWithSuffix
                 val paths = miner.retrievePaths(node)
 
                 storage.store(paths.map { toPathContext(it) }, entityId = file.path,
@@ -48,7 +47,7 @@ fun allPythonFiles(generate_vocab:Boolean) {
                 println(e)
             }
         }
-        storage.save("py_output")
+        storage.save("js_output")
     }
 
 }

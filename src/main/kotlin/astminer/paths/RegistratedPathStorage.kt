@@ -8,10 +8,6 @@ import java.io.File
 
 class RegistratedPathStorage {
 
-//    private val tokensMap: IncrementalIdStorage<String> = IncrementalIdStorage()
-//    private val orientedNodeTypesMap: IncrementalIdStorage<OrientedNodeType> = IncrementalIdStorage()
-//    private val pathsMap: IncrementalIdStorage<List<Long>> = IncrementalIdStorage()
-
     private val pathContextsPerEntity: MutableMap<String, Collection<PathContextId>> = HashMap()
 
     data class PathContextId(val startTokenId: Long, val pathId: Long, val endTokenId: Long)

@@ -1,14 +1,12 @@
 # astminer
 
-A library for mining of [path-based representations of code](https://arxiv.org/pdf/1803.09544.pdf). The code 
+A library for mining of [path-based representations of code](https://arxiv.org/pdf/1803.09544.pdf). The repo is forked from https://github.com/vovak/astminer.
 
 
 
 
 ## About
-Astminer is an offspring of an internal utility from a research project.
-
-Currently it supports extraction of path-based representations and raw ASTs from code in Java and Python, but it is designed to be very easily extensible.
+Currently it supports extraction of path-based representations and raw ASTs from code in Java, C/C++, Python and JavaScript. 
 
 The default output format is inspired by [code2vec](https://github.com/tech-srl/code2vec).
 
@@ -40,6 +38,84 @@ A [usage example](src/main/kotlin/astminer/examples/AllCppFiles.kt) is available
 
 
 
+### Parsing Python
+
+Put your input data in `./py_data` , run 
+
+```shell
+./gradlew run
+```
+
+and output will be in `./py_output` .
+
+There are 2 modes for parsing Python:
+
++ from scratch: in this mode, together with `path_contextcsv`,  `node_types.csv`, `paths.csv` and `tokens.csv` will also be generated . However, for different input files, same token, node and path may be represented in different id. You can modify an argument in `astminer/src/main/kotlin/astminer/Main.kt` :
+
+  ```kotlin
+  allPythonFiles(true)
+  ```
+
+  to run in this mode.
+
++ from existing dictionary: given `node_types.csv`, `paths.csv` and `tokens.csv` , you can use existing dictionary to generate `path_context.csv` . You can modify an argument in `astminer/src/main/kotlin/astminer/Main.kt` :
+
+  ```kotlin
+  allPythonFiles(false)
+  ```
+
+  to run in this mode. You need to place  `node_types.csv`, `paths.csv` and `tokens.csv` in `./py_input` .
+
+
+
+### Parsing JavaScript
+
+Put your input data in `./js_data` , run 
+
+```shell
+./gradlew run
+```
+
+and output will be in `./js_output` .
+
+Similar to Python parser, you can also parse JavaScript in 2 modes. To run in the second mode, put your csv files in `./js_input` .
+
+
+
+## Project Structure
+
+```yaml
+astminer:
+|-- src
+| 	|-- main
+| 	|	|-- antlr
+| 	|	|	| 	Java8Lexer.g4
+| 	|	|	| 	Java8Parser.g4
+| 	|	|	└--	Python3.g4
+| 	|	|   generated
+| 	|	|   java
+| 	|	└-- kotlin: generate path-contexts
+| 	└-- test
+|
+|-- data: dir for input code files/folders
+|-- input: dir for exisiting dictionary
+└-- output: dir for output files, should contain 4 cvs files
+```
+
+
+
+### Mechanism in `/src/main/kotlin/astminer`
+
+The main worker is written in `kotlin`.
+
+`VocabularyPathStorage` class in `/paths/VocabularyPathStorage` file is the worker of saving generated information by default.
+
+`RegistratedPathStorage` class in `/paths/RegistratedPathStorage` file is used as the worker of saving generated information when generating using existing vocabulary.
+
+Files in `/examples` show the usages of extracting Path-contexts from code of several languages. 
+
+
+
 ## Other languages
 
 Support for a new programming language can be implemented in a few simple steps:
@@ -47,24 +123,3 @@ Support for a new programming language can be implemented in a few simple steps:
 2. Run the `antlr4` Gradle task to generate the parser;
 3. Implement a very minimal wrapper around the generated parser.
 See [JavaParser](src/main/kotlin/astminer/parse/antlr/java/JavaParser.kt) or [PythonParser](src/main/kotlin/astminer/parse/antlr/python/PythonParser.kt) for an example of a wrapper.
-
-## Contribution
-We believe that astminer could find use beyond our own mining tasks.
-
-Please help make astminer easier to use by sharing your potential use cases.
-Pull requests are welcome as well! Support for other languages and documentation are the key areas of improvement. 
-
-## Citing astminer
-A paper dedicated to astminer (more precisely, to its older version [PathMiner](https://github.com/vovak/astminer/tree/pathminer)) was presented at [MSR'19](https://2019.msrconf.org/). [Preprint](https://zenodo.org/record/2595271).
-
-If you use astminer in your academic work, please consider citing the paper:
-```
-@inproceedings{kovalenko2019pathminer,
-  title={PathMiner: a library for mining of path-based representations of code},
-  author={Kovalenko, Vladimir and Bogomolov, Egor and Bryksin, Timofey and Bacchelli, Alberto},
-  booktitle={Proceedings of the 16th International Conference on Mining Software Repositories},
-  pages={13--17},
-  year={2019},
-  organization={IEEE Press}
-}
-```

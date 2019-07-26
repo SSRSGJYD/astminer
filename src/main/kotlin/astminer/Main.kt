@@ -10,9 +10,8 @@ fun runExamples() {
     //allJavaFilesGumTree()
     //allJavaFiles()
     //allJavaMethods()
-    allPythonFiles(false)
-
     //AllJavaFiles.runExample()
-
     //allJavaAsts()
+	//allPythonFiles(false)
+	//allJSFiles(false)
 }
